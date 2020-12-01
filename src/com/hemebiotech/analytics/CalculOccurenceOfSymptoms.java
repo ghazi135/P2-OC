@@ -6,11 +6,10 @@ import java.util.TreeMap;
 
 
 public class CalculOccurenceOfSymptoms implements ICalculOccurenceOfSymptoms {
+
     /**
-     * @return {@link TreeMap} of symtoms with thier occurence implimented by the {@link Map} interface but collected in alphabetical order
-     *
-     *
-     *
+     * @return {@link TreeMap} of symtoms with thier occurence implimented by the {@link Map} interface but collected in
+     *         alphabetical order
      */
 
     @Override
