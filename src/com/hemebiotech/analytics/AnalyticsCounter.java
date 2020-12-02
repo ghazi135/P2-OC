@@ -1,43 +1,36 @@
 package com.hemebiotech.analytics;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.FileWriter;
+import java.io.IOException;
+import java.util.List;
+import java.util.Map;
 
+/**
+ * The principal class AnalyticsCounter will contain the other classes using the instantiation
+ */
 public class AnalyticsCounter {
-	private static int headacheCount = 0;	// initialize to 0
-	private static int rashCount = 0;		// initialize to 0
-	private static int pupilCount = 0;		// initialize to 0
-	
-	public static void main(String args[]) throws Exception {
-		// first get input
-		BufferedReader reader = new BufferedReader (new FileReader("symptoms.txt"));
-		String line = reader.readLine();
 
-		int i = 0;	// set i to 0
-		int headCount = 0;	// counts headaches
-		while (line != null) {
-			i++;	// increment i
-			System.out.println("symptom from file: " + line);
-			if (line.equals("headache")) {
-				headCount++;
-				System.out.println("number of headaches: " + headCount);
-			}
-			else if (line.equals("rush")) {
-				rashCount++;
-			}
-			else if (line.contains("pupils")) {
-				pupilCount++;
-			}
+	/**
+	 * @param args this main method will run every single separated class .
+	 */
+	public static void main(String args[]) {
+		try {
+			ISymptomReader reader = new ReadSymptomDataFromFile("symptoms.txt");
 
-			line = reader.readLine();	// get another symptom
+			List <String> symptom = reader.getSymptoms();
+
+			ICalculOccurenceOfSymptoms calculOccurrence = new CalculOccurenceOfSymptoms();
+
+			Map <String, Integer> map = calculOccurrence.calcul(symptom); // treat of the list and store it in the file
+			// result.out
+			IWriteResultInFile file = new WriteResultInFile();
+			file.write(map);
+
+		} catch (IOException e){
+			System.err.println("il ya un problème d'execution");
+
 		}
-		
-		// next generate output
-		FileWriter writer = new FileWriter ("result.out");
-		writer.write("headache: " + headacheCount + "\n");
-		writer.write("rash: " + rashCount + "\n");
-		writer.write("dialated pupils: " + pupilCount + "\n");
-		writer.close();
+
+
+
 	}
 }
